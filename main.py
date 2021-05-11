@@ -15,7 +15,3 @@ chain.addBlock({
 })
 
 print('Blockchain valid - ' + str(chain.isChainValid()))
-
-chain.getLatestBlock().previousHash = ""
-
-print('Blockchain valid - ' + str(chain.isChainValid()))

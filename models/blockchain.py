@@ -1,12 +1,14 @@
 from models import block
+import time
 
 class Blockchain:
 
     def __init__(self):
         self.chain = [self.getGenesisBlock()]
+        self.difficulty = 5
 
     def getGenesisBlock(self):
-        return block.Block("Genesis Block", "")
+        return block.Block("Genesis Block", "", time.time_ns())
 
     def getLatestBlock(self):
         return self.chain[len(self.chain) - 1]
@@ -19,7 +21,8 @@ class Blockchain:
 
     def addBlock(self, data):
         previousHash = self.getLatestBlock().hash
-        newBlock = block.Block(data, previousHash)
+        newBlock = block.Block(data, previousHash, time.time_ns())
+        newBlock.mineBlock(self.difficulty)
         self.chain.append(newBlock)
 
     def isChainValid(self):
