@@ -2,15 +2,15 @@ import hashlib
 
 class Block:
 
-    def __init__(self, data, previousHash, timestamp):
-        self.data = data
+    def __init__(self, transactions, previousHash, timestamp):
+        self.transactions = transactions
         self.previousHash = previousHash
         self.timestamp = timestamp
         self.nonce = 0
         self.hash = self.calculateHash()
         
     def calculateHash(self):
-        return hashlib.sha256(str(self.nonce).encode('utf-8') + str(self.data).encode('utf-8') + self.previousHash.encode('utf-8') + str(self.timestamp).encode('utf-8')).hexdigest()
+        return hashlib.sha256(str(self.nonce).encode('utf-8') + str(self.transactions).encode('utf-8') + self.previousHash.encode('utf-8') + str(self.timestamp).encode('utf-8')).hexdigest()
 
     def mineBlock(self, difficulty):
         checkStr = ''

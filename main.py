@@ -1,17 +1,9 @@
-from models import blockchain
+from models.transaction import Transaction
+from models.blockchain import Blockchain
 
-chain = blockchain.Blockchain()
-print('Blockchain valid - ' + str(chain.isChainValid()))
+chain = Blockchain()
+chain.createTransaction(Transaction('Shannon', 'Tanmay', 100))
+chain.createTransaction(Transaction('Tanmay', 'Shannon', 50))
 
-chain.addBlock({
-    "from": "Tanmay Sahasrabudhe",
-    "to": "Shannon Dias",
-    "amount": 100
-})
-chain.addBlock({
-    "from": "Shannon Dias",
-    "to": "Tanmay Sahasrabudhe",
-    "amount": 50
-})
-
-print('Blockchain valid - ' + str(chain.isChainValid()))
+chain.minePendingTransaction('Tanmay')
+print('Balance of Tanmay is ' + str(chain.getBalanceOfUser('Tanmay')))
