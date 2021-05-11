@@ -3,16 +3,13 @@ from models import block
 class Blockchain:
 
     def __init__(self):
-        self.lastBlock = self.getGenesisBlock()
-        self.blockMap = {
-            self.lastBlock.hash: self.lastBlock
-        }
+        self.chain = [self.getGenesisBlock()]
 
     def getGenesisBlock(self):
         return block.Block("Genesis Block", "")
 
     def getLatestBlock(self):
-        return self.lastBlock
+        return self.chain[len(self.chain) - 1]
 
     def setLatestBlock(self, block):
         self.lastBlock = block
@@ -23,21 +20,15 @@ class Blockchain:
     def addBlock(self, data):
         previousHash = self.getLatestBlock().hash
         newBlock = block.Block(data, previousHash)
-        self.setLatestBlock(newBlock)
-        self.blockMap[newBlock.hash] = newBlock
+        self.chain.append(newBlock)
 
     def isChainValid(self):
-        i = 1
-        currentBlock = self.getLatestBlock()
-        while currentBlock.previousHash != "":
-            previousBlock = self.getBlockFromHash(currentBlock.previousHash)
+        for i in range(1, len(self.chain)):
+            currentBlock = self.chain[i]
+            previousBlock = self.chain[i-1]
             if currentBlock.hash != currentBlock.calculateHash():
                 return False
             if currentBlock.previousHash != previousBlock.hash:
                 return False
-            currentBlock = self.getBlockFromHash(currentBlock.previousHash)
-            i += 1
-        if i != len(self.blockMap):
-            return False
         return True
         
